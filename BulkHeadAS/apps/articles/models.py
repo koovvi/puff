@@ -1,33 +1,27 @@
-import datetime
-from django.utils import timezone
 from django.db import models
 
-class Services(models.Model):
-    service_name = models.CharField('Название услуги', max_length=50, default='')
-    #service_time_work = models.IntegerField('Примерное время работы')
-    #service_employee = models.CharField('00Фамилия работника', max_length=50)
+class Flower(models.Model):
+    name = models.CharField('Название цветка', max_length=255)
+    price = models.DecimalField('Цена',max_digits=20, decimal_places=2, default=0.00)
+    image = models.ImageField(blank=True, upload_to='img')
+    description = models.TextField('Состав', null=True, blank=True)
 
     def __str__(self):
-        return self.service_name
+        return self.name
+
     class Meta:
+        verbose_name = 'Цветок'
+        verbose_name_plural = 'Цветки'
 
-        verbose_name = "Услуга"
-        verbose_name_plural = "Услуги"
+class Client(models.Model):
+    client_name = models.CharField('ФИО', max_length=255)
+    phone_number = models.CharField('Телефонный номер', max_length=255)
+    client_adress = models.CharField('Адрес', max_length=255)
+    client_flower = models.ForeignKey(Flower, on_delete=models.CASCADE, default=1)
 
-class Article(models.Model):
+    def __str__(self):
+        return self.client_name
 
-    fio = models.CharField('ФИО', max_length=255, default='Рубец Алексей Сергеевич')
-    car = models.CharField('Марка машины', max_length=255, default='Toyota')
-    car_model = models.CharField('Модель автомобиля', max_length=255, default='Auris')
-    phone_number = models.CharField('Номер телефона', max_length=255, default='+375445905077')
-    pub_order = models.DateTimeField('Дата заказа', default=timezone.localtime(timezone.now()))
-    client_service = models.ForeignKey(Services, on_delete=models.CASCADE, default=1)
-
-    USERNAME_FIELD = 'fio'
-    REQUIRED_FIELDS = ['username']
-
-    def __str__ (self):
-        return self.fio
     class Meta:
         verbose_name = 'Клиент'
         verbose_name_plural = 'Клиенты'

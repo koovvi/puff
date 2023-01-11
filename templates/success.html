@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} Успешно! {% endblock %}
+{% block content %}
+    <div class="container calendarbox">
+        <div align="center">
+            <h1>Вы оформили заказ. Пожалуйста, ожидайте наш звонок</h1>
+            <p>При желании вы можете отменить заказ.</p>
+            <form action="{% url 'main' %}"><button class="btn btn-success">Главное меню</button></form>
+        </div>
+    </div>
+{% endblock %}

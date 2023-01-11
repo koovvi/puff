@@ -1,25 +1,6 @@
-from django import forms
 from django.forms import ModelForm
-from .models import *
-
-class Entrollment(ModelForm):
-
-    fio = forms.CharField(label="Фамилия Имя Отвество")
-    car = forms.CharField(label="Автомобиль")
-    car_model = forms.CharField(label="Модель")
-    phone_number = forms.CharField(label="Номер телефона")
-    client_service = models.ForeignKey(Services, on_delete=models.CASCADE, default=1)
-    pub_order = forms.DateTimeField(label="Запись на")
-
+from .models import Client
+class UploadFlower(ModelForm):
     class Meta:
-        model = Article
-        fields = ["fio", "car", "car_model", "phone_number", "client_service", "pub_order"]
-        labels = {'fio': 'ФИО', "car": "Марка автомобиля", "car_model": "Модель автомобиля", "phone_number": "Телефонный номер", "client_service": "Услуга", "pub_order": "Время записи"}
-    #
-    #client_service = forms.ForeignKey(Services, on_delete=models.CASCADE)
-
-
-
-    #pub_order = forms.DateTimeField(initial='Дата заказа')
-    #choose = forms.ChoiceField('Услуга', choices=SERVICES, widget=forms.Select)
-    #
+        model = Client
+        fields = ['client_name', 'phone_number', 'client_adress', 'client_flower']

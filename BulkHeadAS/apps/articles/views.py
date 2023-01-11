@@ -1,32 +1,29 @@
 from django.views.generic.edit import CreateView
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from .models import Article
+from django.shortcuts import render
 from django.views.generic import ListView
-from . models import Services
-from .forms import Entrollment
+from .models import Flower
+from .forms import UploadFlower
+from django.http.response import HttpResponse
+
 
 class MyAccountView(CreateView):
-    model = Article
+    model = Flower
     template_name = 'user/profile.html'
-
     fields = '__all__'
-
-class ShowServices(ListView):
-    model = Services
-    template_name = 'services.html'
 
 def index(request):
     return render(request, 'main.html')
-def about(request):
-    return render(request, 'about/about.html')
 
-def serviceEntrollment(request):
+def catalog(request):
+    flowers = Flower.objects.all()
+    if request.method == 'GET':
+        return render(request, 'catalog.html', {'flowers': flowers})
+
+def uploadFlower(request):
     if request.method == "POST":
-        form = Entrollment(request.POST)
+        form = UploadFlower(request.POST, request.FILES)
+        print(request.FILES)
         if form.is_valid():
             form.save()
-        return redirect('index')
-    return render(request, 'entrollment.html', {'form': Entrollment})
-#
-
+            return render(request, 'success.html')
+    return render(request, 'addFlower.html', {'form': UploadFlower})
